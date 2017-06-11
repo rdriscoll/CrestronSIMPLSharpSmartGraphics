@@ -1,0 +1,5 @@
+\\Mac\Home\Documents\src\simplSharpPro\Projects\SIMPLSharpProDev\Test\bin\Debug\CrestronSimplSharpProHelloWorldTest.dll
+\\Mac\Home\Documents\src\simplSharpPro\Projects\SIMPLSharpProDev\Test\bin\Debug\CrestronSimplSharpProHelloWorldTest.pdb
+\\Mac\Home\Documents\src\simplSharpPro\Projects\SIMPLSharpProDev\Test\obj\Debug\ResolveAssemblyReference.cache
+\\Mac\Home\Documents\src\simplSharpPro\Projects\SIMPLSharpProDev\Test\obj\Debug\CrestronSimplSharpProHelloWorldTest.dll
+\\Mac\Home\Documents\src\simplSharpPro\Projects\SIMPLSharpProDev\Test\obj\Debug\CrestronSimplSharpProHelloWorldTest.pdb

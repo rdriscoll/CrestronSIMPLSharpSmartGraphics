@@ -3,6 +3,8 @@ Microsoft Visual Studio Solution File, Format Version 10.00
 # Visual Studio 2008
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SIMPLSharpSmartGraphics", "CrestronSIMPLSharpSmartGraphics\SIMPLSharpSmartGraphics.csproj", "{0A6587B6-E809-4E8A-AC75-F8B3998E25C0}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SIMPLSharpSmartGraphicsTest", "Tests\SIMPLSharpSmartGraphicsTest.csproj", "{B788C3DB-65A2-4076-B94B-D88519EC0133}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -10,9 +12,12 @@ Global
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{0A6587B6-E809-4E8A-AC75-F8B3998E25C0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{0A6587B6-E809-4E8A-AC75-F8B3998E25C0}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0A6587B6-E809-4E8A-AC75-F8B3998E25C0}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0A6587B6-E809-4E8A-AC75-F8B3998E25C0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B788C3DB-65A2-4076-B94B-D88519EC0133}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B788C3DB-65A2-4076-B94B-D88519EC0133}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B788C3DB-65A2-4076-B94B-D88519EC0133}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B788C3DB-65A2-4076-B94B-D88519EC0133}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

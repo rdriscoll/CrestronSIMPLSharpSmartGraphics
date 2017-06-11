@@ -1,3 +1,33 @@
+// License info and recommendations
+//-----------------------------------------------------------------------
+// <copyright file="ControlSystem.cs" company="AVPlus Integration Pty Ltd">
+//     {c} AV Plus Pty Ltd 2017.
+//     http://www.avplus.net.au
+//     20170611 Rod Driscoll
+//     e: rdriscoll@avplus.net.au
+//     m: +61 428 969 608
+//     Permission is hereby granted, free of charge, to any person obtaining a copy
+//     of this software and associated documentation files (the "Software"), to deal
+//     in the Software without restriction, including without limitation the rights
+//     to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+//     copies of the Software, and to permit persons to whom the Software is
+//     furnished to do so, subject to the following conditions:
+//     
+//     The above copyright notice and this permission notice shall be included in
+//     all copies or substantial portions of the Software.
+//     
+//     THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+//     IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+//     FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+//     AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+//     LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+//     OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+//     THE SOFTWARE.
+//
+//     For more details please refer to the LICENSE file located in the root folder 
+//      of the project source code;
+// </copyright>
+
 using System;
 using System.Collections.Generic;
 using Crestron.SimplSharpPro;                       	// For Basic SIMPL#Pro classes
@@ -8,10 +38,12 @@ using Crestron.SimplSharp.CrestronIO;                   // For user interfaces
 // To add assemblies that aren't built in by default right click in Solution Explorer > Project name > References folder and select the reference
 using Crestron.SimplSharpPro.UI;
 
+using AVPlus.Utils;
 using SG = AVPlus.Utils.UI.SmartGraphicsHelper; // an alias so I don't have to type the whole static class name every time
 using UI = AVPlus.Utils.UI.UserInterfaceHelper;
+using Log = AVPlus.Utils.Logging;
 
-namespace AVPlus
+namespace AVPlus.SmartGraphics
 {
     public class ControlSystem : CrestronControlSystem
     {
@@ -52,13 +84,13 @@ namespace AVPlus
             }
             catch (Exception e)
             {
-                StringHelper.OnDebug(eDebugEventType.Error, "Error in the constructor: {0}", e.Message);
+                Log.OnDebug(Utils.eDebugEventType.Error, "Error in the constructor: {0}", e.Message);
             }
         }
 
         void ConfigUserInterfaces()
         {
-            StringHelper.OnDebug(eDebugEventType.Info, "Configuring UserInterfaces");
+            Log.OnDebug(Utils.eDebugEventType.Info, "Configuring UserInterfaces");
             // create the user interfaces that you want in the project
             ui_01 = new Tsw1060(0x03, this);
             ui_02 = new XpanelForSmartGraphics(0x04, this);
@@ -72,12 +104,12 @@ namespace AVPlus
                 if (typeof(TswX60BaseClass).IsAssignableFrom(currentDevice.GetType()))
                 {
                     ((TswX60BaseClass)currentDevice).ExtenderHardButtonReservedSigs.Use(); // must be done before registration. May cause, System.InvalidCastException: InvalidCastException
-                    StringHelper.OnDebug(eDebugEventType.Info, "ui_{0:X2} {1} using HardButtonReservedSigs", currentDevice.ID, currentDevice.Name);
+                    Log.OnDebug(Utils.eDebugEventType.Info, "ui_{0:X2} {1} using HardButtonReservedSigs", currentDevice.ID, currentDevice.Name);
                 }
                 if (currentDevice.Register() == eDeviceRegistrationUnRegistrationResponse.Success)
-                    StringHelper.OnDebug(eDebugEventType.Info, "ui_{0:X2} {1} registration success", currentDevice.ID, currentDevice.Name);
+                    Log.OnDebug(Utils.eDebugEventType.Info, "ui_{0:X2} {1} registration success", currentDevice.ID, currentDevice.Name);
                 else
-                    StringHelper.OnDebug(eDebugEventType.Error, "ui_{0:X2} {1} failed registration. Cause: {2}", currentDevice.ID, currentDevice.Name, currentDevice.RegistrationFailureReason);
+                    Log.OnDebug(Utils.eDebugEventType.Error, "ui_{0:X2} {1} failed registration. Cause: {2}", currentDevice.ID, currentDevice.Name, currentDevice.RegistrationFailureReason);
                 currentDevice.OnlineStatusChange += new OnlineStatusChangeEventHandler(ui_OnlineStatusChange);
                 currentDevice.SigChange += new SigEventHandler(ui_SigChange);
 
@@ -85,7 +117,7 @@ namespace AVPlus
             }
             catch (Exception e)
             {
-                StringHelper.OnDebug(eDebugEventType.Error, "Exception in ConfigUserInterfaces: {0}", e.Message);
+                Log.OnDebug(Utils.eDebugEventType.Error, "Exception in ConfigUserInterfaces: {0}", e.Message);
             }
         }
         void LoadUserInterfaceSmartObjectGraphics(BasicTriListWithSmartObject currentDevice)
@@ -96,7 +128,7 @@ namespace AVPlus
                 if (File.Exists(location))
                 {
                     currentDevice.LoadSmartObjects(location);
-                    StringHelper.OnDebug(eDebugEventType.Info, "{0} SmartObject items loaded", currentDevice.SmartObjects.Count.ToString());
+                    Log.OnDebug(Utils.eDebugEventType.Info, "{0} SmartObject items loaded", currentDevice.SmartObjects.Count.ToString());
                     foreach (KeyValuePair<uint, SmartObject> kvp in currentDevice.SmartObjects)
                     {
                         kvp.Value.SigChange += new SmartObjectSigChangeEventHandler(SmartObject_SigChange);
@@ -104,17 +136,17 @@ namespace AVPlus
                     }
                 }
                 else
-                    StringHelper.OnDebug(eDebugEventType.Info, "SmartObject file{0} does not exist", location);
+                    Log.OnDebug(Utils.eDebugEventType.Info, "SmartObject file{0} does not exist", location);
             }
             catch (Exception e)
             {
-                StringHelper.OnDebug(eDebugEventType.Error, "Exception in LoadUserInterfaceSmartObjectGraphics: {0}", e.Message);
+                Log.OnDebug(Utils.eDebugEventType.Error, "Exception in LoadUserInterfaceSmartObjectGraphics: {0}", e.Message);
             }
         }
 
         void ui_OnlineStatusChange(GenericBase currentDevice, OnlineOfflineEventArgs args)
         {
-            StringHelper.OnDebug(eDebugEventType.Info, "{0} online status {1}", currentDevice.ToString(), args.DeviceOnLine.ToString());
+            Log.OnDebug(Utils.eDebugEventType.Info, "{0} online status {1}", currentDevice.ToString(), args.DeviceOnLine.ToString());
             Type type = currentDevice.GetType();
 
             SmartObject so = ((BasicTriListWithSmartObject)currentDevice).SmartObjects[SG_DYNAMIC_BTN_LIST];
@@ -157,7 +189,7 @@ namespace AVPlus
             }
             catch (Exception e)
             {
-                StringHelper.OnDebug(eDebugEventType.Info, "ui_OnlineStatusChange exception: {0}", e.Message);
+                Log.OnDebug(Utils.eDebugEventType.Info, "ui_OnlineStatusChange exception: {0}", e.Message);
             }
         }
 
@@ -166,10 +198,10 @@ namespace AVPlus
             try
             {
                 Sig sig = args.Sig;
-                StringHelper.OnDebug(eDebugEventType.Info, "{0} HardButton SigChange type: {1}, sig: {2}, Name: {3}", currentDeviceExtender.ToString(), sig.Type.ToString(), sig.Number.ToString(), sig.Name);
+                Log.OnDebug(Utils.eDebugEventType.Info, "{0} HardButton SigChange type: {1}, sig: {2}, Name: {3}", currentDeviceExtender.ToString(), sig.Type.ToString(), sig.Number.ToString(), sig.Name);
                 if (sig.BoolValue) // press
                 {
-                    StringHelper.OnDebug(eDebugEventType.Info, "Press event on sig number: {0}", sig.Number);
+                    Log.OnDebug(Utils.eDebugEventType.Info, "Press event on sig number: {0}", sig.Number);
                     switch (sig.Number)
                     {
                         case 1: break;
@@ -181,20 +213,20 @@ namespace AVPlus
             }
             catch (Exception e)
             {
-                StringHelper.OnDebug(eDebugEventType.Info, "ui_HardButton_SigChange exception: {0}", e.Message);
+                Log.OnDebug(Utils.eDebugEventType.Info, "ui_HardButton_SigChange exception: {0}", e.Message);
             }
         }
 
         void ui_SigChange(BasicTriList currentDevice, SigEventArgs args)
         {
             Sig sig = args.Sig;
-            StringHelper.OnDebug(eDebugEventType.Info, "{0} SigChange in {1} type: {2}, sig: {3}, Name: {4}", currentDevice.ToString(), currentDevice.ID.ToString(), sig.Type.ToString(), sig.Number.ToString(), sig.Name);
+            Log.OnDebug(Utils.eDebugEventType.Info, "{0} SigChange in {1} type: {2}, sig: {3}, Name: {4}", currentDevice.ToString(), currentDevice.ID.ToString(), sig.Type.ToString(), sig.Number.ToString(), sig.Name);
             switch (sig.Type)
             {
                 case eSigType.Bool:
                     if (sig.BoolValue) // press
                     {
-                        StringHelper.OnDebug(eDebugEventType.Info, "Press event on sig number: {0}", sig.Number);
+                        Log.OnDebug(Utils.eDebugEventType.Info, "Press event on sig number: {0}", sig.Number);
                         switch(sig.Number)
                         {
                             case DIG_TOGGLE_POWER:
@@ -213,7 +245,7 @@ namespace AVPlus
                     }
                     break;
                 case eSigType.UShort:
-                    StringHelper.OnDebug(eDebugEventType.Info, "UShortValue: {0}", sig.UShortValue.ToString());
+                    Log.OnDebug(Utils.eDebugEventType.Info, "UShortValue: {0}", sig.UShortValue.ToString());
                     switch(sig.Number)
                     {
                         case ANA_BAR_GRAPH:
@@ -226,7 +258,7 @@ namespace AVPlus
                     }
                     break;
                 case eSigType.String:
-                    StringHelper.OnDebug(eDebugEventType.Info, "StringValue: {0}", sig.StringValue);
+                    Log.OnDebug(Utils.eDebugEventType.Info, "StringValue: {0}", sig.StringValue);
                     switch (sig.Number)
                     {
                         case SER_INPUT:
@@ -235,7 +267,7 @@ namespace AVPlus
                     }
                     break;
                 default:
-                    StringHelper.OnDebug(eDebugEventType.Info, "Unhandled sig type: {0}", sig.Type.ToString());
+                    Log.OnDebug(Utils.eDebugEventType.Info, "Unhandled sig type: {0}", sig.Type.ToString());
                     break;
             }
         }
@@ -245,7 +277,7 @@ namespace AVPlus
             var item = (BasicTriListWithSmartObject)currentDevice;
             SmartObject so = item.SmartObjects[args.SmartObjectArgs.ID];
             Sig sig = args.Sig;
-            StringHelper.OnDebug(eDebugEventType.Info, "SmartObject Object ID {0}, on device {1}, type: {2}, Name: {3}, number: {4}", so.ID, so.Device.ID.ToString(), sig.Type.ToString(), sig.Name, sig.Number.ToString());
+            Log.OnDebug(Utils.eDebugEventType.Info, "SmartObject Object ID {0}, on device {1}, type: {2}, Name: {3}, number: {4}", so.ID, so.Device.ID.ToString(), sig.Type.ToString(), sig.Name, sig.Number.ToString());
             switch (args.SmartObjectArgs.ID)
             {
                 case SG_DPAD             : SmartObject_DPad_SigChange       (item, args); break;
@@ -279,7 +311,7 @@ namespace AVPlus
         {
             try
             {
-                StringHelper.OnDebug(eDebugEventType.Info, "UResetPinText");
+                Log.OnDebug(Utils.eDebugEventType.Info, "UResetPinText");
                 Thread.Sleep(1000);
                 keypadText = "";
                 var ui = o as BasicTriList;
@@ -288,7 +320,7 @@ namespace AVPlus
             }
             catch (Exception e)
             {
-                StringHelper.OnDebug(eDebugEventType.Info, "ResetPinText exception: {0}", e.Message);
+                Log.OnDebug(Utils.eDebugEventType.Info, "ResetPinText exception: {0}", e.Message);
             }
             return null;
         }
@@ -299,13 +331,13 @@ namespace AVPlus
             {
                 switch (args.Sig.Name.ToUpper())
                 {
-                    case "UP"    : StringHelper.OnDebug(eDebugEventType.Info, "Up pressed"    ); break; // up
-                    case "DOWN"  : StringHelper.OnDebug(eDebugEventType.Info, "Down pressed"  ); break; // dn
-                    case "LEFT"  : StringHelper.OnDebug(eDebugEventType.Info, "Left pressed"  ); break; // le
-                    case "RIGHT" : StringHelper.OnDebug(eDebugEventType.Info, "Right pressed" ); break; // ri
-                    case "CENTER": StringHelper.OnDebug(eDebugEventType.Info, "Center pressed"); break; // OK
+                    case "UP"    : Log.OnDebug(Utils.eDebugEventType.Info, "Up pressed"    ); break; // up
+                    case "DOWN"  : Log.OnDebug(Utils.eDebugEventType.Info, "Down pressed"  ); break; // dn
+                    case "LEFT"  : Log.OnDebug(Utils.eDebugEventType.Info, "Left pressed"  ); break; // le
+                    case "RIGHT" : Log.OnDebug(Utils.eDebugEventType.Info, "Right pressed" ); break; // ri
+                    case "CENTER": Log.OnDebug(Utils.eDebugEventType.Info, "Center pressed"); break; // OK
                     default: 
-                        StringHelper.OnDebug(eDebugEventType.Info, "Unhandled keypad button {0} pressed, name:{1}", args.Sig.Number, args.Sig.Name); 
+                        Log.OnDebug(Utils.eDebugEventType.Info, "Unhandled keypad button {0} pressed, name:{1}", args.Sig.Number, args.Sig.Name); 
                         break;
                 }
             }
@@ -325,7 +357,7 @@ namespace AVPlus
                 case eSigType.Bool:
                     if (sig.BoolValue)
                     {
-                        StringHelper.OnDebug(eDebugEventType.Info, "Press event");
+                        Log.OnDebug(Utils.eDebugEventType.Info, "Press event");
                         switch (sig.Number)
                         {
                             //case 1: break;
@@ -349,17 +381,17 @@ namespace AVPlus
                     }
                     else
                     {
-                        StringHelper.OnDebug(eDebugEventType.Info, "Release event");
+                        Log.OnDebug(Utils.eDebugEventType.Info, "Release event");
                     }
                     break;
                 case eSigType.UShort:
-                    StringHelper.OnDebug(eDebugEventType.Info, "UShortValue: {0}", sig.UShortValue.ToString());
+                    Log.OnDebug(Utils.eDebugEventType.Info, "UShortValue: {0}", sig.UShortValue.ToString());
                     break;
                 case eSigType.String:
-                    StringHelper.OnDebug(eDebugEventType.Info, "StringValue: {0}", sig.StringValue);
+                    Log.OnDebug(Utils.eDebugEventType.Info, "StringValue: {0}", sig.StringValue);
                     break;
                 default:
-                    StringHelper.OnDebug(eDebugEventType.Info, "Unhandled sig type: {0}", sig.Type.ToString());
+                    Log.OnDebug(Utils.eDebugEventType.Info, "Unhandled sig type: {0}", sig.Type.ToString());
                     break;
             }
         }
@@ -374,11 +406,11 @@ namespace AVPlus
                 case eSigType.Bool:
                     if (sig.BoolValue)
                     {
-                        StringHelper.OnDebug(eDebugEventType.Info, "Press event");
+                        Log.OnDebug(Utils.eDebugEventType.Info, "Press event");
                         switch (sig.Number)
                         {
                             default:
-                                int number = StringHelper.Atoi(sig.Name); // Number is offset by 10 so we need item with no offset
+                                int number = AVPlus.Utils.StringHelper.Atoi(sig.Name); // Number is offset by 10 so we need item with no offset
                                 // toggle the button feedback and put some text onto it
                                 SG.ToggleSmartObjectDigitalJoin(so, (int)sig.Number);
                                 string buttonText = "Item " + sig.Number.ToString() + " " + SG.GetSmartObjectDigitalJoin(so, (int)sig.Number).ToString();
@@ -391,17 +423,17 @@ namespace AVPlus
                     }
                     else
                     {
-                        StringHelper.OnDebug(eDebugEventType.Info, "Release event");
+                        Log.OnDebug(Utils.eDebugEventType.Info, "Release event");
                     }
                     break;
                 case eSigType.UShort:
-                    StringHelper.OnDebug(eDebugEventType.Info, "UShortValue: {0}", sig.UShortValue.ToString());
+                    Log.OnDebug(Utils.eDebugEventType.Info, "UShortValue: {0}", sig.UShortValue.ToString());
                     break;
                 case eSigType.String:
-                    StringHelper.OnDebug(eDebugEventType.Info, "StringValue: {0}", sig.StringValue);
+                    Log.OnDebug(Utils.eDebugEventType.Info, "StringValue: {0}", sig.StringValue);
                     break;
                 default:
-                    StringHelper.OnDebug(eDebugEventType.Info, "Unhandled sig type: {0}", sig.Type.ToString());
+                    Log.OnDebug(Utils.eDebugEventType.Info, "Unhandled sig type: {0}", sig.Type.ToString());
                     break;
             }
         }
@@ -416,7 +448,7 @@ namespace AVPlus
                 case eSigType.Bool:
                     if (sig.BoolValue)
                     {
-                        StringHelper.OnDebug(eDebugEventType.Info, "Press event");
+                        Log.OnDebug(Utils.eDebugEventType.Info, "Press event");
                         switch (sig.Number)
                         {
                             default:
@@ -436,17 +468,17 @@ namespace AVPlus
                     }
                     else
                     {
-                        StringHelper.OnDebug(eDebugEventType.Info, "Release event");
+                        Log.OnDebug(Utils.eDebugEventType.Info, "Release event");
                     }
                     break;
                 case eSigType.UShort:
-                    StringHelper.OnDebug(eDebugEventType.Info, "UShortValue: {0}", sig.UShortValue.ToString());
+                    Log.OnDebug(Utils.eDebugEventType.Info, "UShortValue: {0}", sig.UShortValue.ToString());
                     break;
                 case eSigType.String:
-                    StringHelper.OnDebug(eDebugEventType.Info, "StringValue: {0}", sig.StringValue);
+                    Log.OnDebug(Utils.eDebugEventType.Info, "StringValue: {0}", sig.StringValue);
                     break;
                 default:
-                    StringHelper.OnDebug(eDebugEventType.Info, "Unhandled sig type: {0}", sig.Type.ToString());
+                    Log.OnDebug(Utils.eDebugEventType.Info, "Unhandled sig type: {0}", sig.Type.ToString());
                     break;
             }
         }

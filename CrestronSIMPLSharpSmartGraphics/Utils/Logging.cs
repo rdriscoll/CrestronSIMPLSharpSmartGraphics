@@ -1,6 +1,6 @@
 ﻿// License info and recommendations
 //-----------------------------------------------------------------------
-// <copyright file="StringHelper.cs" company="AVPlus Integration Pty Ltd">
+// <copyright file="Logging.cs" company="AVPlus Integration Pty Ltd">
 //     {c} AV Plus Pty Ltd 2017.
 //     http://www.avplus.net.au
 //     20170611 Rod Driscoll
@@ -28,17 +28,31 @@
 //      of the project source code;
 // </copyright>
 
-using System;
-using System.Text.RegularExpressions;
+using Crestron.SimplSharp;
 
 namespace AVPlus.Utils
 {
-    public static class StringHelper
+    public enum eDebugEventType
     {
-        public static int Atoi(string str)
+        NA,
+        Info,
+        Notice,
+        Ok,
+        Warn,
+        Error
+    }
+
+    public class Logging
+    {
+        public static void OnDebug(eDebugEventType eventType, string str, params object[] list)
         {
-            String m = Regex.Match(str, @"\d+").Value; // get the 2 from "button 2 pressed"
-            return m.Length == 0 ? (ushort)0 : Convert.ToInt32(m);
+            CrestronConsole.PrintLine(str, list);
+            switch (eventType)
+            {
+                case eDebugEventType.Notice: ErrorLog.Notice(str, list); break;
+                case eDebugEventType.Warn: ErrorLog.Warn(str, list); break;
+                case eDebugEventType.Error: ErrorLog.Error(str, list); break;
+            }
         }
     }
 }

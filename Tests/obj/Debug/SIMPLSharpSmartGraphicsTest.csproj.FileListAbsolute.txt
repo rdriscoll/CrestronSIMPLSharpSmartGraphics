@@ -1,0 +1,14 @@
+\\Mac\Home\Documents\src\simplSharpPro\Projects\SIMPLSharpProDev\Examples\SmartGraphics\Tests\bin\Debug\SimplSharpCustomAttributesInterface.dll
+\\Mac\Home\Documents\src\simplSharpPro\Projects\SIMPLSharpProDev\Examples\SmartGraphics\Tests\bin\Debug\Crestron.SimplSharpPro.UI.dll
+\\Mac\Home\Documents\src\simplSharpPro\Projects\SIMPLSharpProDev\Examples\SmartGraphics\Tests\bin\Debug\Crestron.SimplSharpPro.DeviceSupport.dll
+\\Mac\Home\Documents\src\simplSharpPro\Projects\SIMPLSharpProDev\Examples\SmartGraphics\Tests\bin\Debug\SimplSharpHelperInterface.dll
+\\Mac\Home\Documents\src\simplSharpPro\Projects\SIMPLSharpProDev\Examples\SmartGraphics\Tests\bin\Debug\SimplSharpPro.exe
+\\Mac\Home\Documents\src\simplSharpPro\Projects\SIMPLSharpProDev\Examples\SmartGraphics\Tests\obj\Debug\ResolveAssemblyReference.cache
+\\Mac\Home\Documents\src\simplSharpPro\Projects\SIMPLSharpProDev\Examples\SmartGraphics\Tests\bin\Debug\nunit.framework.dll
+\\Mac\Home\Documents\src\simplSharpPro\Projects\SIMPLSharpProDev\Examples\SmartGraphics\Tests\bin\Debug\nunit.framework.xml
+\\Mac\Home\Documents\src\simplSharpPro\Projects\SIMPLSharpProDev\Examples\SmartGraphics\Tests\bin\Debug\AVPlus.SmartGraphics.dll
+\\Mac\Home\Documents\src\simplSharpPro\Projects\SIMPLSharpProDev\Examples\SmartGraphics\Tests\bin\Debug\AVPlus.SmartGraphics.pdb
+\\Mac\Home\Documents\src\simplSharpPro\Projects\SIMPLSharpProDev\Examples\SmartGraphics\Tests\bin\Debug\AVPlus.SmartGraphics.Test.dll
+\\Mac\Home\Documents\src\simplSharpPro\Projects\SIMPLSharpProDev\Examples\SmartGraphics\Tests\bin\Debug\AVPlus.SmartGraphics.Test.pdb
+\\Mac\Home\Documents\src\simplSharpPro\Projects\SIMPLSharpProDev\Examples\SmartGraphics\Tests\obj\Debug\AVPlus.SmartGraphics.Test.dll
+\\Mac\Home\Documents\src\simplSharpPro\Projects\SIMPLSharpProDev\Examples\SmartGraphics\Tests\obj\Debug\AVPlus.SmartGraphics.Test.pdb

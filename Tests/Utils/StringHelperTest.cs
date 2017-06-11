@@ -1,6 +1,6 @@
 ﻿// License info and recommendations
 //-----------------------------------------------------------------------
-// <copyright file="StringHelper.cs" company="AVPlus Integration Pty Ltd">
+// <copyright file="StringHelperTest.cs" company="AVPlus Integration Pty Ltd">
 //     {c} AV Plus Pty Ltd 2017.
 //     http://www.avplus.net.au
 //     20170611 Rod Driscoll
@@ -28,17 +28,24 @@
 //      of the project source code;
 // </copyright>
 
-using System;
-using System.Text.RegularExpressions;
+using NUnit.Framework;
 
 namespace AVPlus.Utils
 {
-    public static class StringHelper
+    [TestFixture]
+    class StringHelperTest
     {
-        public static int Atoi(string str)
+        [Test]
+        public void Atoi_TestString123_Equals123() //UnitOfWork__StateUnderTest__ExpectedBehavior
         {
-            String m = Regex.Match(str, @"\d+").Value; // get the 2 from "button 2 pressed"
-            return m.Length == 0 ? (ushort)0 : Convert.ToInt32(m);
+            var result = StringHelper.Atoi("123");
+            Assert.That(result.Equals(123));
+        }
+        [Test]
+        public void Atoi_TestStringWithTextAndNumbers_EqualsFirstNumber()
+        {
+            var result = StringHelper.Atoi("Set Item 4 Text");
+            Assert.That(result.Equals(4));
         }
     }
 }

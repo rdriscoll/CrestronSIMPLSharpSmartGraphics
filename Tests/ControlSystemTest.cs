@@ -1,6 +1,6 @@
 ﻿// License info and recommendations
 //-----------------------------------------------------------------------
-// <copyright file="StringHelper.cs" company="AVPlus Integration Pty Ltd">
+// <copyright file="ControlSystemtest.cs" company="AVPlus Integration Pty Ltd">
 //     {c} AV Plus Pty Ltd 2017.
 //     http://www.avplus.net.au
 //     20170611 Rod Driscoll
@@ -29,16 +29,22 @@
 // </copyright>
 
 using System;
-using System.Text.RegularExpressions;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
 
-namespace AVPlus.Utils
+using NUnit.Framework;
+
+namespace AVPlus.SmartGraphics
 {
-    public static class StringHelper
+    // nUbit Testing project. To perform nUnit tests in VS2008:
+    // Download the current nUnit from http://nunit.org/index.php?p=download
+    // Import the nunit.framework.dll reference from the net3.5 folder of the download
+    // Import the dll reference of the project under test
+    // Run the tests in the nUnit GuiConole
+
+    [TestFixture]
+    public class ControlSystemTest
     {
-        public static int Atoi(string str)
-        {
-            String m = Regex.Match(str, @"\d+").Value; // get the 2 from "button 2 pressed"
-            return m.Length == 0 ? (ushort)0 : Convert.ToInt32(m);
-        }
     }
 }

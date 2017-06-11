@@ -1,0 +1,11 @@
+\\Mac\Home\Documents\src\simplSharpPro\Projects\SIMPLSharpProDev\SmartGraphicsMinimal\bin\Debug\SmartGraphicsMinimal.dll
+\\Mac\Home\Documents\src\simplSharpPro\Projects\SIMPLSharpProDev\SmartGraphicsMinimal\bin\Debug\SmartGraphicsMinimal.pdb
+\\Mac\Home\Documents\src\simplSharpPro\Projects\SIMPLSharpProDev\SmartGraphicsMinimal\bin\Debug\Crestron.SimplSharpPro.DeviceSupport.dll
+\\Mac\Home\Documents\src\simplSharpPro\Projects\SIMPLSharpProDev\SmartGraphicsMinimal\bin\Debug\Crestron.SimplSharpPro.UI.dll
+\\Mac\Home\Documents\src\simplSharpPro\Projects\SIMPLSharpProDev\SmartGraphicsMinimal\bin\Debug\SimplSharpCustomAttributesInterface.dll
+\\Mac\Home\Documents\src\simplSharpPro\Projects\SIMPLSharpProDev\SmartGraphicsMinimal\bin\Debug\SimplSharpHelperInterface.dll
+\\Mac\Home\Documents\src\simplSharpPro\Projects\SIMPLSharpProDev\SmartGraphicsMinimal\bin\Debug\SimplSharpPro.exe
+\\Mac\Home\Documents\src\simplSharpPro\Projects\SIMPLSharpProDev\SmartGraphicsMinimal\obj\Debug\ResolveAssemblyReference.cache
+\\Mac\Home\Documents\src\simplSharpPro\Projects\SIMPLSharpProDev\SmartGraphicsMinimal\obj\Debug\SmartGraphicsMinimal.dll
+\\Mac\Home\Documents\src\simplSharpPro\Projects\SIMPLSharpProDev\SmartGraphicsMinimal\obj\Debug\SmartGraphicsMinimal.pdb
+\\Mac\Home\Documents\src\simplSharpPro\Projects\SIMPLSharpProDev\SmartGraphicsMinimal\bin\Debug\Dev.sgd
