@@ -28,11 +28,11 @@
 //      of the project source code;
 // </copyright>
 
-using System;
-using System.Text.RegularExpressions;
-
 namespace AVPlus.Utils
 {
+    using System;
+    using System.Text.RegularExpressions;
+
     public static class StringHelper
     {
         public static int Atoi(string str)

@@ -28,13 +28,13 @@
 //      of the project source code;
 // </copyright>
 
-using NUnit.Framework;
-using System;
-
-using ui = AVPlus.Utils.UI.UserInterfaceHelper; // SmartGraphics.dll
-
 namespace AVPlus.Utils.UI
 {
+    using NUnit.Framework;
+    using System;
+
+    using ui = AVPlus.Utils.UI.UserInterfaceHelper; // SmartGraphics.dll
+
     [TestFixture]
     class UserInterfaceHelperTest
     {

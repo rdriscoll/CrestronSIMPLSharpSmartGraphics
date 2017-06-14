@@ -28,15 +28,15 @@
 //      of the project source code;
 // </copyright>
 
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-using NUnit.Framework;
-
 namespace AVPlus.SmartGraphics
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Text;
+
+    using NUnit.Framework;
+    
     // nUbit Testing project. To perform nUnit tests in VS2008:
     // Download the current nUnit from http://nunit.org/index.php?p=download
     // Import the nunit.framework.dll reference from the net3.5 folder of the download

@@ -28,10 +28,10 @@
 //      of the project source code;
 // </copyright>
 
-using NUnit.Framework;
-
 namespace AVPlus.Utils
 {
+    using NUnit.Framework;
+
     [TestFixture]
     class StringHelperTest
     {

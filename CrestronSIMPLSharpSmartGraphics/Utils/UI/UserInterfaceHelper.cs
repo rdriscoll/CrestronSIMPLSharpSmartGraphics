@@ -28,11 +28,12 @@
 //      of the project source code;
 // </copyright>
 
-using System;
-using System.Collections.Generic;
-
 namespace AVPlus.Utils.UI
 {
+    using System;
+    using System.Collections.Generic;
+    using Crestron.SimplSharpPro.DeviceSupport;
+
     public static class UserInterfaceHelper
     {
         public static eCrestronFont defaultFont = eCrestronFont.Arial;
@@ -691,5 +692,30 @@ namespace AVPlus.Utils.UI
         {
             return FormatTextForUi(text, defaultfontSize, defaultFont, defaultColour);
         }
+
+        #region join methods
+
+        public static void SetDigitalJoin(BasicTriList currentDevice, uint number, bool value)
+        {
+            currentDevice.BooleanInput[number].BoolValue = value;
+        }
+        public static void ToggleDigitalJoin(BasicTriList currentDevice, uint number)
+        {
+            currentDevice.BooleanInput[number].BoolValue = !currentDevice.BooleanInput[number].BoolValue;
+        }
+        public static void PulseDigitalJoin(BasicTriList currentDevice, uint number)
+        {
+            currentDevice.BooleanInput[number].Pulse();
+        }
+        public static void SetAnalogJoin(BasicTriList currentDevice, uint number, ushort value)
+        {
+            currentDevice.UShortInput[number].UShortValue = value;
+        }
+        public static void SetSerialJoin(BasicTriList currentDevice, uint number, string value)
+        {
+            currentDevice.StringInput[number].StringValue = value;
+        }
+
+        #endregion
     }
 }

@@ -28,13 +28,13 @@
 //      of the project source code;
 // </copyright>
 
-using System;
-using Crestron.SimplSharp;
-using Crestron.SimplSharpPro;
-using Crestron.SimplSharpPro.DeviceSupport;
-
 namespace AVPlus.Utils.UI
 {
+    using System;
+    using Crestron.SimplSharp;
+    using Crestron.SimplSharpPro;
+    using Crestron.SimplSharpPro.DeviceSupport;
+
     public static class SmartGraphicsHelper
     {
         // Crestrons implementation of Smart joins is terrible, hopefully this library helps.

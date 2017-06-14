@@ -28,10 +28,10 @@
 //      of the project source code;
 // </copyright>
 
-using Crestron.SimplSharp;
-
 namespace AVPlus.Utils
 {
+    using Crestron.SimplSharp;
+
     public enum eDebugEventType
     {
         NA,
@@ -50,8 +50,8 @@ namespace AVPlus.Utils
             switch (eventType)
             {
                 case eDebugEventType.Notice: ErrorLog.Notice(str, list); break;
-                case eDebugEventType.Warn: ErrorLog.Warn(str, list); break;
-                case eDebugEventType.Error: ErrorLog.Error(str, list); break;
+                case eDebugEventType.Warn  : ErrorLog.Warn  (str, list); break;
+                case eDebugEventType.Error : ErrorLog.Error (str, list); break;
             }
         }
     }

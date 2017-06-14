@@ -28,23 +28,22 @@
 //      of the project source code;
 // </copyright>
 
-using System;
-using System.Collections.Generic;
-using Crestron.SimplSharpPro;                       	// For Basic SIMPL#Pro classes
-using Crestron.SimplSharpPro.CrestronThread;        	// For Threading
-using Crestron.SimplSharpPro.DeviceSupport;         	// For Generic Device Support
-using Crestron.SimplSharp.CrestronIO;                   // For user interfaces
-// using statemenst below require the assembly to be added first.
-// To add assemblies that aren't built in by default right click in Solution Explorer > Project name > References folder and select the reference
-using Crestron.SimplSharpPro.UI;
-
-using AVPlus.Utils;
-using SG = AVPlus.Utils.UI.SmartGraphicsHelper; // an alias so I don't have to type the whole static class name every time
-using UI = AVPlus.Utils.UI.UserInterfaceHelper;
-using Log = AVPlus.Utils.Logging;
-
 namespace AVPlus.SmartGraphics
 {
+    using System;
+    using System.Collections.Generic;
+    using Crestron.SimplSharpPro;                       	// For Basic SIMPL#Pro classes
+    using Crestron.SimplSharpPro.CrestronThread;        	// For Threading
+    using Crestron.SimplSharpPro.DeviceSupport;         	// For Generic Device Support
+    using Crestron.SimplSharp.CrestronIO;                   // For user interfaces
+    // using statemenst below require the assembly to be added first.
+    // To add assemblies that aren't built in by default right click in Solution Explorer > Project name > References folder and select the reference
+    using Crestron.SimplSharpPro.UI;
+
+    using AVPlus.Utils;
+    using SG = AVPlus.Utils.UI.SmartGraphicsHelper; // an alias so I don't have to type the whole static class name every time
+    using UI = AVPlus.Utils.UI.UserInterfaceHelper;
+    
     public class ControlSystem : CrestronControlSystem
     {
         Tsw1060 ui_01;
@@ -84,13 +83,13 @@ namespace AVPlus.SmartGraphics
             }
             catch (Exception e)
             {
-                Log.OnDebug(Utils.eDebugEventType.Error, "Error in the constructor: {0}", e.Message);
+                OnDebug(eDebugEventType.Error, "Error in the constructor: {0}", e.Message);
             }
         }
 
         void ConfigUserInterfaces()
         {
-            Log.OnDebug(Utils.eDebugEventType.Info, "Configuring UserInterfaces");
+            OnDebug(eDebugEventType.Info, "Configuring UserInterfaces");
             // create the user interfaces that you want in the project
             ui_01 = new Tsw1060(0x03, this);
             ui_02 = new XpanelForSmartGraphics(0x04, this);
@@ -104,12 +103,12 @@ namespace AVPlus.SmartGraphics
                 if (typeof(TswX60BaseClass).IsAssignableFrom(currentDevice.GetType()))
                 {
                     ((TswX60BaseClass)currentDevice).ExtenderHardButtonReservedSigs.Use(); // must be done before registration. May cause, System.InvalidCastException: InvalidCastException
-                    Log.OnDebug(Utils.eDebugEventType.Info, "ui_{0:X2} {1} using HardButtonReservedSigs", currentDevice.ID, currentDevice.Name);
+                    OnDebug(eDebugEventType.Info, "ui_{0:X2} {1} using HardButtonReservedSigs", currentDevice.ID, currentDevice.Name);
                 }
                 if (currentDevice.Register() == eDeviceRegistrationUnRegistrationResponse.Success)
-                    Log.OnDebug(Utils.eDebugEventType.Info, "ui_{0:X2} {1} registration success", currentDevice.ID, currentDevice.Name);
+                    OnDebug(eDebugEventType.Info, "ui_{0:X2} {1} registration success", currentDevice.ID, currentDevice.Name);
                 else
-                    Log.OnDebug(Utils.eDebugEventType.Error, "ui_{0:X2} {1} failed registration. Cause: {2}", currentDevice.ID, currentDevice.Name, currentDevice.RegistrationFailureReason);
+                    OnDebug(eDebugEventType.Error, "ui_{0:X2} {1} failed registration. Cause: {2}", currentDevice.ID, currentDevice.Name, currentDevice.RegistrationFailureReason);
                 currentDevice.OnlineStatusChange += new OnlineStatusChangeEventHandler(ui_OnlineStatusChange);
                 currentDevice.SigChange += new SigEventHandler(ui_SigChange);
 
@@ -117,7 +116,7 @@ namespace AVPlus.SmartGraphics
             }
             catch (Exception e)
             {
-                Log.OnDebug(Utils.eDebugEventType.Error, "Exception in ConfigUserInterfaces: {0}", e.Message);
+                OnDebug(eDebugEventType.Error, "Exception in ConfigUserInterfaces: {0}", e.Message);
             }
         }
         void LoadUserInterfaceSmartObjectGraphics(BasicTriListWithSmartObject currentDevice)
@@ -128,7 +127,7 @@ namespace AVPlus.SmartGraphics
                 if (File.Exists(location))
                 {
                     currentDevice.LoadSmartObjects(location);
-                    Log.OnDebug(Utils.eDebugEventType.Info, "{0} SmartObject items loaded", currentDevice.SmartObjects.Count.ToString());
+                    OnDebug(eDebugEventType.Info, "{0} SmartObject items loaded", currentDevice.SmartObjects.Count.ToString());
                     foreach (KeyValuePair<uint, SmartObject> kvp in currentDevice.SmartObjects)
                     {
                         kvp.Value.SigChange += new SmartObjectSigChangeEventHandler(SmartObject_SigChange);
@@ -136,17 +135,17 @@ namespace AVPlus.SmartGraphics
                     }
                 }
                 else
-                    Log.OnDebug(Utils.eDebugEventType.Info, "SmartObject file{0} does not exist", location);
+                    OnDebug(eDebugEventType.Info, "SmartObject file{0} does not exist", location);
             }
             catch (Exception e)
             {
-                Log.OnDebug(Utils.eDebugEventType.Error, "Exception in LoadUserInterfaceSmartObjectGraphics: {0}", e.Message);
+                OnDebug(eDebugEventType.Error, "Exception in LoadUserInterfaceSmartObjectGraphics: {0}", e.Message);
             }
         }
 
         void ui_OnlineStatusChange(GenericBase currentDevice, OnlineOfflineEventArgs args)
         {
-            Log.OnDebug(Utils.eDebugEventType.Info, "{0} online status {1}", currentDevice.ToString(), args.DeviceOnLine.ToString());
+            OnDebug(eDebugEventType.Info, "{0} online status {1}", currentDevice.ToString(), args.DeviceOnLine.ToString());
             Type type = currentDevice.GetType();
 
             SmartObject so = ((BasicTriListWithSmartObject)currentDevice).SmartObjects[SG_DYNAMIC_BTN_LIST];
@@ -189,7 +188,7 @@ namespace AVPlus.SmartGraphics
             }
             catch (Exception e)
             {
-                Log.OnDebug(Utils.eDebugEventType.Info, "ui_OnlineStatusChange exception: {0}", e.Message);
+                OnDebug(eDebugEventType.Info, "ui_OnlineStatusChange exception: {0}", e.Message);
             }
         }
 
@@ -198,10 +197,10 @@ namespace AVPlus.SmartGraphics
             try
             {
                 Sig sig = args.Sig;
-                Log.OnDebug(Utils.eDebugEventType.Info, "{0} HardButton SigChange type: {1}, sig: {2}, Name: {3}", currentDeviceExtender.ToString(), sig.Type.ToString(), sig.Number.ToString(), sig.Name);
+                OnDebug(eDebugEventType.Info, "{0} HardButton SigChange type: {1}, sig: {2}, Name: {3}", currentDeviceExtender.ToString(), sig.Type.ToString(), sig.Number.ToString(), sig.Name);
                 if (sig.BoolValue) // press
                 {
-                    Log.OnDebug(Utils.eDebugEventType.Info, "Press event on sig number: {0}", sig.Number);
+                    OnDebug(eDebugEventType.Info, "Press event on sig number: {0}", sig.Number);
                     switch (sig.Number)
                     {
                         case 1: break;
@@ -213,30 +212,30 @@ namespace AVPlus.SmartGraphics
             }
             catch (Exception e)
             {
-                Log.OnDebug(Utils.eDebugEventType.Info, "ui_HardButton_SigChange exception: {0}", e.Message);
+                OnDebug(eDebugEventType.Info, "ui_HardButton_SigChange exception: {0}", e.Message);
             }
         }
 
         void ui_SigChange(BasicTriList currentDevice, SigEventArgs args)
         {
             Sig sig = args.Sig;
-            Log.OnDebug(Utils.eDebugEventType.Info, "{0} SigChange in {1} type: {2}, sig: {3}, Name: {4}", currentDevice.ToString(), currentDevice.ID.ToString(), sig.Type.ToString(), sig.Number.ToString(), sig.Name);
+            OnDebug(eDebugEventType.Info, "{0} SigChange in {1} type: {2}, sig: {3}, Name: {4}", currentDevice.ToString(), currentDevice.ID.ToString(), sig.Type.ToString(), sig.Number.ToString(), sig.Name);
             switch (sig.Type)
             {
                 case eSigType.Bool:
                     if (sig.BoolValue) // press
                     {
-                        Log.OnDebug(Utils.eDebugEventType.Info, "Press event on sig number: {0}", sig.Number);
+                        OnDebug(eDebugEventType.Info, "Press event on sig number: {0}", sig.Number);
                         switch(sig.Number)
                         {
                             case DIG_TOGGLE_POWER:
-                                ToggleDigitalJoin(currentDevice, sig.Number);
+                                UI.ToggleDigitalJoin(currentDevice, sig.Number);
                                 break;
                             case DIG_MACRO:
-                                PulseDigitalJoin(currentDevice, DIG_TOGGLE_POWER);
+                                UI.PulseDigitalJoin(currentDevice, DIG_TOGGLE_POWER);
                                 var randomNumber = new Random().Next(ushort.MaxValue);
-                                SetAnalogJoin(currentDevice, ANA_RANDOM, (ushort)randomNumber);
-                                SetSerialJoin(currentDevice, SER_VALUE, randomNumber.ToString());
+                                UI.SetAnalogJoin(currentDevice, ANA_RANDOM, (ushort)randomNumber);
+                                UI.SetSerialJoin(currentDevice, SER_VALUE, randomNumber.ToString());
                                 break;
                         }
                     }
@@ -245,29 +244,29 @@ namespace AVPlus.SmartGraphics
                     }
                     break;
                 case eSigType.UShort:
-                    Log.OnDebug(Utils.eDebugEventType.Info, "UShortValue: {0}", sig.UShortValue.ToString());
+                    OnDebug(eDebugEventType.Info, "UShortValue: {0}", sig.UShortValue.ToString());
                     switch(sig.Number)
                     {
                         case ANA_BAR_GRAPH:
-                            SetAnalogJoin(currentDevice, sig.Number, sig.UShortValue);
-                            SetSerialJoin(currentDevice, SER_VALUE , sig.UShortValue.ToString());
+                            UI.SetAnalogJoin(currentDevice, sig.Number, sig.UShortValue);
+                            UI.SetSerialJoin(currentDevice, SER_VALUE, sig.UShortValue.ToString());
                             break;
                         case ANA_RANDOM:
-                            SetAnalogJoin(currentDevice, ANA_BAR_GRAPH, sig.UShortValue);
+                            UI.SetAnalogJoin(currentDevice, ANA_BAR_GRAPH, sig.UShortValue);
                             break;
                     }
                     break;
                 case eSigType.String:
-                    Log.OnDebug(Utils.eDebugEventType.Info, "StringValue: {0}", sig.StringValue);
+                    OnDebug(eDebugEventType.Info, "StringValue: {0}", sig.StringValue);
                     switch (sig.Number)
                     {
                         case SER_INPUT:
-                            SetSerialJoin(currentDevice, SER_VALUE, sig.StringValue.ToString());
+                            UI.SetSerialJoin(currentDevice, SER_VALUE, sig.StringValue.ToString());
                             break;
                     }
                     break;
                 default:
-                    Log.OnDebug(Utils.eDebugEventType.Info, "Unhandled sig type: {0}", sig.Type.ToString());
+                    OnDebug(eDebugEventType.Info, "Unhandled sig type: {0}", sig.Type.ToString());
                     break;
             }
         }
@@ -277,7 +276,7 @@ namespace AVPlus.SmartGraphics
             var item = (BasicTriListWithSmartObject)currentDevice;
             SmartObject so = item.SmartObjects[args.SmartObjectArgs.ID];
             Sig sig = args.Sig;
-            Log.OnDebug(Utils.eDebugEventType.Info, "SmartObject Object ID {0}, on device {1}, type: {2}, Name: {3}, number: {4}", so.ID, so.Device.ID.ToString(), sig.Type.ToString(), sig.Name, sig.Number.ToString());
+            OnDebug(eDebugEventType.Info, "SmartObject Object ID {0}, on device {1}, type: {2}, Name: {3}, number: {4}", so.ID, so.Device.ID.ToString(), sig.Type.ToString(), sig.Name, sig.Number.ToString());
             switch (args.SmartObjectArgs.ID)
             {
                 case SG_DPAD             : SmartObject_DPad_SigChange       (item, args); break;
@@ -301,7 +300,7 @@ namespace AVPlus.SmartGraphics
                     keypadText = "PIN " + (keypadText.Equals(pin) ? "Correct": "Wrong");
                     Thread keypad = new Thread(ResetPinTextThread, currentDevice);
                 }
-                SetSerialJoin(currentDevice, SER_INPUT, keypadText);
+                UI.SetSerialJoin(currentDevice, SER_INPUT, keypadText);
             }
             else // release
             {
@@ -311,16 +310,16 @@ namespace AVPlus.SmartGraphics
         {
             try
             {
-                Log.OnDebug(Utils.eDebugEventType.Info, "UResetPinText");
+                OnDebug(eDebugEventType.Info, "UResetPinText");
                 Thread.Sleep(1000);
                 keypadText = "";
                 var ui = o as BasicTriList;
                 if (ui != null)
-                    SetSerialJoin(ui, SER_INPUT, keypadText);
+                    UI.SetSerialJoin(ui, SER_INPUT, keypadText);
             }
             catch (Exception e)
             {
-                Log.OnDebug(Utils.eDebugEventType.Info, "ResetPinText exception: {0}", e.Message);
+                OnDebug(eDebugEventType.Info, "ResetPinText exception: {0}", e.Message);
             }
             return null;
         }
@@ -331,13 +330,13 @@ namespace AVPlus.SmartGraphics
             {
                 switch (args.Sig.Name.ToUpper())
                 {
-                    case "UP"    : Log.OnDebug(Utils.eDebugEventType.Info, "Up pressed"    ); break; // up
-                    case "DOWN"  : Log.OnDebug(Utils.eDebugEventType.Info, "Down pressed"  ); break; // dn
-                    case "LEFT"  : Log.OnDebug(Utils.eDebugEventType.Info, "Left pressed"  ); break; // le
-                    case "RIGHT" : Log.OnDebug(Utils.eDebugEventType.Info, "Right pressed" ); break; // ri
-                    case "CENTER": Log.OnDebug(Utils.eDebugEventType.Info, "Center pressed"); break; // OK
+                    case "UP"    : OnDebug(eDebugEventType.Info, "Up pressed"    ); break; // up
+                    case "DOWN"  : OnDebug(eDebugEventType.Info, "Down pressed"  ); break; // dn
+                    case "LEFT"  : OnDebug(eDebugEventType.Info, "Left pressed"  ); break; // le
+                    case "RIGHT" : OnDebug(eDebugEventType.Info, "Right pressed" ); break; // ri
+                    case "CENTER": OnDebug(eDebugEventType.Info, "Center pressed"); break; // OK
                     default: 
-                        Log.OnDebug(Utils.eDebugEventType.Info, "Unhandled keypad button {0} pressed, name:{1}", args.Sig.Number, args.Sig.Name); 
+                        OnDebug(eDebugEventType.Info, "Unhandled keypad button {0} pressed, name:{1}", args.Sig.Number, args.Sig.Name); 
                         break;
                 }
             }
@@ -357,14 +356,17 @@ namespace AVPlus.SmartGraphics
                 case eSigType.Bool:
                     if (sig.BoolValue)
                     {
-                        Log.OnDebug(Utils.eDebugEventType.Info, "Press event");
+                        OnDebug(eDebugEventType.Info, "Press event");
                         switch (sig.Number)
                         {
                             //case 1: break;
                             default:
+                                //SG.ToggleSmartObjectVisible(soDynBtnList , (int)sig.Number);       // toggle visibility
+                                //SG.ToggleSmartObjectVisible(soDynIconList, (int)sig.Number);       // toggle visibility
+
                                 // toggle the button feedback and put some text onto it
-                                SG.ToggleSmartObjectSelected(so, (int)sig.Number); // standard button lists don't support feedback  so this doesn't do anything
                                 string buttonText = "Item " + sig.Number.ToString();
+                                SG.ToggleSmartObjectSelected(so, (int)sig.Number); // standard button lists don't support feedback  so this doesn't do anything
                                 SG.SetSmartObjectText       (so, (int)sig.Number, buttonText);
 
                                 // soDynBtnList uses dynamic IconAnalogs, of type MediaTransports
@@ -375,23 +377,24 @@ namespace AVPlus.SmartGraphics
                                 // soDynIconList uses dynamic IconSerials, of type IconsLg
                                 SG.ToggleSmartObjectVisible(soDynIconList, (int)sig.Number);       // toggle visibility
                                 SG.SetSmartObjectEnabled   (soDynIconList, (int)sig.Number, true); // enable
-                                SG.SetSmartObjectIconSerial(soDynIconList, (int)sig.Number, UI.IconsLgDict[(ushort)sig.Number]); // set icon to the next serial
+                                string icon =  UI.IconsLgDict[0];
+                                SG.SetSmartObjectIconSerial(soDynIconList, (int)sig.Number, icon); // set icon to the next serial
                                 break;
                         }
                     }
                     else
                     {
-                        Log.OnDebug(Utils.eDebugEventType.Info, "Release event");
+                        OnDebug(eDebugEventType.Info, "Release event");
                     }
                     break;
                 case eSigType.UShort:
-                    Log.OnDebug(Utils.eDebugEventType.Info, "UShortValue: {0}", sig.UShortValue.ToString());
+                    OnDebug(eDebugEventType.Info, "UShortValue: {0}", sig.UShortValue.ToString());
                     break;
                 case eSigType.String:
-                    Log.OnDebug(Utils.eDebugEventType.Info, "StringValue: {0}", sig.StringValue);
+                    OnDebug(eDebugEventType.Info, "StringValue: {0}", sig.StringValue);
                     break;
                 default:
-                    Log.OnDebug(Utils.eDebugEventType.Info, "Unhandled sig type: {0}", sig.Type.ToString());
+                    OnDebug(eDebugEventType.Info, "Unhandled sig type: {0}", sig.Type.ToString());
                     break;
             }
         }
@@ -406,7 +409,7 @@ namespace AVPlus.SmartGraphics
                 case eSigType.Bool:
                     if (sig.BoolValue)
                     {
-                        Log.OnDebug(Utils.eDebugEventType.Info, "Press event");
+                        OnDebug(eDebugEventType.Info, "Press event");
                         switch (sig.Number)
                         {
                             default:
@@ -423,17 +426,17 @@ namespace AVPlus.SmartGraphics
                     }
                     else
                     {
-                        Log.OnDebug(Utils.eDebugEventType.Info, "Release event");
+                        OnDebug(eDebugEventType.Info, "Release event");
                     }
                     break;
                 case eSigType.UShort:
-                    Log.OnDebug(Utils.eDebugEventType.Info, "UShortValue: {0}", sig.UShortValue.ToString());
+                    OnDebug(eDebugEventType.Info, "UShortValue: {0}", sig.UShortValue.ToString());
                     break;
                 case eSigType.String:
-                    Log.OnDebug(Utils.eDebugEventType.Info, "StringValue: {0}", sig.StringValue);
+                    OnDebug(eDebugEventType.Info, "StringValue: {0}", sig.StringValue);
                     break;
                 default:
-                    Log.OnDebug(Utils.eDebugEventType.Info, "Unhandled sig type: {0}", sig.Type.ToString());
+                    OnDebug(eDebugEventType.Info, "Unhandled sig type: {0}", sig.Type.ToString());
                     break;
             }
         }
@@ -448,65 +451,47 @@ namespace AVPlus.SmartGraphics
                 case eSigType.Bool:
                     if (sig.BoolValue)
                     {
-                        Log.OnDebug(Utils.eDebugEventType.Info, "Press event");
+                        OnDebug(eDebugEventType.Info, "Press event");
                         switch (sig.Number)
                         {
                             default:
                                 int number = StringHelper.Atoi(sig.Name); // Number is offset by 10 so we need item with no offset
                                 // toggle the button feedback and put some text onto it
-                                SG.ToggleSmartObjectDigitalJoin(so, (int)sig.Number);
+//                                SG.ToggleSmartObjectDigitalJoin(so, (int)sig.Number);
                                 string buttonText = "Item " + sig.Number.ToString() + " " + SG.GetSmartObjectDigitalJoin(so, (int)sig.Number).ToString();
-                                //SG.SetSmartObjectText(so, (int)sig.Number, buttonText);
-                                SG.SetSmartObjectText(so, number, buttonText);
+                                //SG.SetSmartObjectText        (so, (int)sig.Number, buttonText);
+//                                SG.SetSmartObjectText          (so, number, buttonText);
+                                string icon = UI.IconsLgDict[(ushort)number];
+                                SG.SetSmartObjectIconSerial    (so, number, icon); // set icon to the next serial
 
-                                SG.ToggleSmartObjectEnabled(soDynBtnList, number);       // enable
+                                //SG.ToggleSmartObjectEnabled(soDynBtnList, number);       // enable
 
-                                SG.ToggleSmartObjectDigitalJoin(soBtnList, number);
-                                SG.SetSmartObjectText          (soBtnList, number, buttonText);
+                                //SG.ToggleSmartObjectDigitalJoin(soBtnList, number);
+                                //SG.SetSmartObjectText          (soBtnList, number, buttonText);
                                 break;
                         }
                     }
                     else
                     {
-                        Log.OnDebug(Utils.eDebugEventType.Info, "Release event");
+                        OnDebug(eDebugEventType.Info, "Release event");
                     }
                     break;
                 case eSigType.UShort:
-                    Log.OnDebug(Utils.eDebugEventType.Info, "UShortValue: {0}", sig.UShortValue.ToString());
+                    OnDebug(eDebugEventType.Info, "UShortValue: {0}", sig.UShortValue.ToString());
                     break;
                 case eSigType.String:
-                    Log.OnDebug(Utils.eDebugEventType.Info, "StringValue: {0}", sig.StringValue);
+                    OnDebug(eDebugEventType.Info, "StringValue: {0}", sig.StringValue);
                     break;
                 default:
-                    Log.OnDebug(Utils.eDebugEventType.Info, "Unhandled sig type: {0}", sig.Type.ToString());
+                    OnDebug(eDebugEventType.Info, "Unhandled sig type: {0}", sig.Type.ToString());
                     break;
             }
         }
 
-        #region join methods
-
-        void SetDigitalJoin(BasicTriList currentDevice, uint number, bool value)
+        void OnDebug(eDebugEventType eventType, string str, params object[] list)
         {
-            currentDevice.BooleanInput[number].BoolValue = value;
+            Logging.OnDebug(eventType, str, list);
         }
-        void ToggleDigitalJoin(BasicTriList currentDevice, uint number)
-        {
-            currentDevice.BooleanInput[number].BoolValue = !currentDevice.BooleanInput[number].BoolValue;
-        }
-        void PulseDigitalJoin(BasicTriList currentDevice, uint number)
-        {
-            currentDevice.BooleanInput[number].Pulse();
-        }
-        void SetAnalogJoin(BasicTriList currentDevice, uint number, ushort value)
-        {
-            currentDevice.UShortInput[number].UShortValue = value;
-        }
-        void SetSerialJoin(BasicTriList currentDevice, uint number, string value)
-        {
-            currentDevice.StringInput[number].StringValue = value;
-        }
-
-        #endregion
 
     }
 }

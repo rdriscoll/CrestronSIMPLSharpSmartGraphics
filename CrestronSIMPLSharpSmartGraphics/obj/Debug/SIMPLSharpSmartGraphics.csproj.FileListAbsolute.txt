@@ -5,7 +5,7 @@
 \\Mac\Home\Documents\src\simplSharpPro\Projects\SIMPLSharpProDev\Examples\SmartGraphics\CrestronSIMPLSharpSmartGraphics\bin\Debug\SimplSharpPro.exe
 \\Mac\Home\Documents\src\simplSharpPro\Projects\SIMPLSharpProDev\Examples\SmartGraphics\CrestronSIMPLSharpSmartGraphics\obj\Debug\ResolveAssemblyReference.cache
 \\Mac\Home\Documents\src\simplSharpPro\Projects\SIMPLSharpProDev\Examples\SmartGraphics\CrestronSIMPLSharpSmartGraphics\bin\Debug\SmartGraphicsDemoXpan.sgd
-\\Mac\Home\Documents\src\simplSharpPro\Projects\SIMPLSharpProDev\Examples\SmartGraphics\CrestronSIMPLSharpSmartGraphics\bin\Debug\AVPlus.SmartGraphics.dll
-\\Mac\Home\Documents\src\simplSharpPro\Projects\SIMPLSharpProDev\Examples\SmartGraphics\CrestronSIMPLSharpSmartGraphics\bin\Debug\AVPlus.SmartGraphics.pdb
-\\Mac\Home\Documents\src\simplSharpPro\Projects\SIMPLSharpProDev\Examples\SmartGraphics\CrestronSIMPLSharpSmartGraphics\obj\Debug\AVPlus.SmartGraphics.dll
-\\Mac\Home\Documents\src\simplSharpPro\Projects\SIMPLSharpProDev\Examples\SmartGraphics\CrestronSIMPLSharpSmartGraphics\obj\Debug\AVPlus.SmartGraphics.pdb
+\\Mac\Home\Documents\src\simplSharpPro\Projects\SIMPLSharpProDev\Examples\SmartGraphics\CrestronSIMPLSharpSmartGraphics\bin\Debug\SIMPLSharpSmartGraphics.dll
+\\Mac\Home\Documents\src\simplSharpPro\Projects\SIMPLSharpProDev\Examples\SmartGraphics\CrestronSIMPLSharpSmartGraphics\bin\Debug\SIMPLSharpSmartGraphics.pdb
+\\Mac\Home\Documents\src\simplSharpPro\Projects\SIMPLSharpProDev\Examples\SmartGraphics\CrestronSIMPLSharpSmartGraphics\obj\Debug\SIMPLSharpSmartGraphics.dll
+\\Mac\Home\Documents\src\simplSharpPro\Projects\SIMPLSharpProDev\Examples\SmartGraphics\CrestronSIMPLSharpSmartGraphics\obj\Debug\SIMPLSharpSmartGraphics.pdb
